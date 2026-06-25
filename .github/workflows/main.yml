@@ -1,0 +1,104 @@
+name: Setp Infra
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: choice
+        default: dev
+        options:
+          - dev
+          - prod
+      operations:
+        type: choice
+        default: apply
+        options:
+          - apply
+          - destroy
+
+jobs:
+  terraform_plan:
+    name: Terraform Plan
+    runs-on: ubuntu-latest
+    environment: azure_auth
+    defaults:
+      run:
+        working-directory: ./terraform
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7.0.0
+
+      - name: Terraform fmt
+        run: terraform fmt
+
+      - name: Terraform Validate
+        run: terraform validate
+
+      - name: Terraform Plan
+        run: |
+          if "${{ inputs.operations }}" == "apply":
+            terraform plan -var-file="environment/${{ inputs.environment }}/terraform.tfvars" -out="terraform_plan.out"
+          else:
+            terraform plan -destroy -var-file="environment/${{ inputs.environment }}/terraform.tfvars" -out="terraform_plan.out"
+            
+      - name: Upload plan out file on artifact
+        uses: actions/upload-artifact@v7.0.1
+        with:
+          name: terraform_plan_out
+          path: terraform_plan.out
+          
+        
+
+  terraform_apply:
+    name: Terraform Apply
+    runs-on: ubuntu-latest
+    environment: terraform_approval
+    needs: terraform_plan
+    defaults:
+      run:
+        working-directory: ./terraform
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7.0.0
+
+      - name: Terraform fmt
+        run: terraform fmt
+
+      - name: Terraform Validate
+        run: terraform validate
+
+      - name: Download plan out file
+        uses: actions/download-artifact@v3.1.0
+        with:
+          name: terraform_plan_out
+          path: terraform_plan.out
+
+      - name: Terraform Apply
+        run: terraform apply ./terraform_plan.out
+
+  terraform_destroy:
+    name: Terraform Destroy
+    runs-on: ubuntu-latest
+    environment: terraform_approval
+    needs: terraform_plan
+    defaults:
+      run:
+        working-directory: ./terraform
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7.0.0
+
+      - name: Terraform fmt
+        run: terraform fmt
+
+      - name: Terraform Validate
+        run: terraform validate
+
+      - name: Download plan out file
+        uses: actions/download-artifact@v3.1.0
+        with:
+          name: terraform_plan_out
+          path: terraform_plan.out
+
+      - name: Terraform Destroy
+        run: terraform apply -destroy ./terraform_plan.out        
