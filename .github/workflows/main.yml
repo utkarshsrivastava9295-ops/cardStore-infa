@@ -1,6 +1,8 @@
 name: Setp Infra
 
 on:
+  push:
+  pull_request:
   workflow_dispatch:
     inputs:
       environment:
@@ -53,6 +55,7 @@ jobs:
         
 
   terraform_apply:
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.operations == 'apply' }}
     name: Terraform Apply
     runs-on: ubuntu-latest
     environment: terraform_approval
@@ -81,6 +84,7 @@ jobs:
 
   terraform_destroy:
     name: Terraform Destroy
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.operations == 'destroy' }}
     runs-on: ubuntu-latest
     environment: terraform_approval
     needs: terraform_plan

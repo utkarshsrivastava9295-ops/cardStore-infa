@@ -1,11 +1,10 @@
+
 variable "environment" {
-  type = string
-  default = "dev"
+  type = string 
 }
 
 variable "resource_group" {
   type = string
-  default = "cardstore_${var.environment}_rg"
 }
 
 variable "location" {
@@ -15,7 +14,6 @@ variable "location" {
 
 variable "vnet_name" {
   type = string
-  default = "cardstore_${var.environment}_vnet"
 }
 
 variable "address_space" {
@@ -31,7 +29,6 @@ variable "subnets" {
 
 variable "cluster_name" {
   type = string
-  default = "cardstore_${var.environment}_cluster"
 }
 
 variable "container_sku" {
@@ -41,7 +38,6 @@ variable "container_sku" {
 
 variable "acr" {
   type = string
-  default = "cardstore_${var.environment}_acr"
 }
 
 variable "node_vm_size" {
