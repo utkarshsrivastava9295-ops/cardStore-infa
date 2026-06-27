@@ -28,6 +28,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7.0.0
 
+      - name: install terraform
+        uses: hashicorp/setup-terraform@v2.0.3
+
       - name: Terraform fmt
         run: terraform fmt
 
