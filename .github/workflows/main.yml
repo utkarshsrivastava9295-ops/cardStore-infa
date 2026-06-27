@@ -19,6 +19,9 @@ on:
         options:
           - apply
           - destroy
+permissions:
+  contents: read
+  id-token: write
 
 env:
   TF_ENVIRONMENT: ${{ inputs.environment || 'dev' }}          
@@ -37,6 +40,13 @@ jobs:
 
       - name: install terraform
         uses: hashicorp/setup-terraform@v2.0.3
+
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
       - name: Terraform Init
         run: terraform init -backend-config=environment/${{ env.TF_ENVIRONMENT }}/backend_config.hcl
@@ -75,6 +85,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7.0.0
 
+      - name: install terraform
+        uses: hashicorp/setup-terraform@v2.0.3
+
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
       - name: Terraform Init
         run: terraform init -backend-config=environment/${{ env.TF_ENVIRONMENT }}/backend_config.hcl
 
@@ -106,6 +126,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7.0.0
 
+      - name: install terraform
+        uses: hashicorp/setup-terraform@v2.0.3
+
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          
       - name: Terraform Init
         run: terraform init -backend-config=environment/${{ env.TF_ENVIRONMENT }}/backend_config.hcl
 
