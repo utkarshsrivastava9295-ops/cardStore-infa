@@ -36,7 +36,8 @@ resource "azurerm_container_registry" "myacr" {
 }
 
 resource "azurerm_role_assignment" "acr_pull" {
-  scope                = azurerm_container_registry.myacr.id
-  role_definition_name = "AcrPull"
-  principal_id         = azurerm_kubernetes_cluster.mycluster.identity[0].principal_id
+  scope                            = azurerm_container_registry.myacr.id
+  role_definition_name             = "AcrPull"
+  principal_id                     = azurerm_kubernetes_cluster.mycluster.kubelet_identity[0].object_id
+  skip_service_principal_aad_check = true
 }
