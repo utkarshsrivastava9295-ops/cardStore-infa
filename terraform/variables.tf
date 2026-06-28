@@ -36,10 +36,6 @@ variable "container_sku" {
   default = "Basic"
 }
 
-variable "acr" {
-  type = string
-}
-
 variable "node_vm_size" {
   type    = string
   default = "Standard_DS2_v2"
