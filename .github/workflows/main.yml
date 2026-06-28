@@ -70,7 +70,8 @@ jobs:
         uses: actions/upload-artifact@v7.0.1
         with:
           name: terraform_plan_out
-          path: terraform_plan.out
+          path: terraform/terraform_plan.out
+          if-no-files-found: error
           
   terraform_apply:
     if: github.event_name == 'workflow_dispatch' && inputs.operations == 'apply'
@@ -108,7 +109,7 @@ jobs:
         uses: actions/download-artifact@v7.0.0
         with:
           name: terraform_plan_out
-          path: terraform_plan.out
+          path: terraform
 
       - name: Terraform Apply
         run: terraform apply ./terraform_plan.out
@@ -149,7 +150,7 @@ jobs:
         uses: actions/download-artifact@v7.0.0
         with:
           name: terraform_plan_out
-          path: terraform_plan.out
+          path: terraform
 
       - name: Terraform Destroy
         run: terraform apply -destroy ./terraform_plan.out        
