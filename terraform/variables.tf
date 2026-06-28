@@ -3,17 +3,9 @@ variable "environment" {
   type = string 
 }
 
-variable "resource_group" {
-  type = string
-}
-
 variable "location" {
   type = string
   default = "Central India"
-}
-
-variable "vnet_name" {
-  type = string
 }
 
 variable "address_space" {
@@ -25,10 +17,6 @@ variable "subnets" {
   type = map(object({
     address_prefix = string
   }))
-}
-
-variable "cluster_name" {
-  type = string
 }
 
 variable "container_sku" {
