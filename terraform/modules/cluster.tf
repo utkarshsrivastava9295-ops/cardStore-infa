@@ -27,7 +27,7 @@ resource "azurerm_kubernetes_cluster" "mycluster" {
 }
 
 resource "azurerm_container_registry" "myacr" {
-  name                = trim(replace(lower(var.acr), "/[^a-z0-9-]+/", "-"), "-")
+  name                = replace(lower(var.acr), "/[^a-z0-9]/", "")
   location            = var.location
   resource_group_name = azurerm_resource_group.myrg.name
   sku                 = var.container_sku
