@@ -9,6 +9,6 @@ subnets = {
     address_prefix = "10.0.0.32/27"
   }
   public-subnet-1 = {
-    address_prefix = "10.0.0.48/27"
+    address_prefix = "10.0.0.64/27"
   }
 }
