@@ -10,5 +10,6 @@ module "cardstoreInfra" {
   container_sku     = var.container_sku
   acr               = local.acr 
   node_vm_size      = var.node_vm_size
+  assign_acr_pull_role = var.assign_acr_pull_role
 
 }

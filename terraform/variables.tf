@@ -73,3 +73,9 @@ variable "tags" {
   type    = map(string)
   default = {}
 }
+
+variable "assign_acr_pull_role" {
+  type        = bool
+  default     = false
+  description = "Requires User Access Administrator on the Terraform identity. Set false if CI only has Contributor."
+}
