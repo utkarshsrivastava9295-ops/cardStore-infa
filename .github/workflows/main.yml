@@ -105,7 +105,7 @@ jobs:
         run: terraform validate
 
       - name: Download plan out file
-        uses: actions/download-artifact@v3.1.0
+        uses: actions/download-artifact@v7.0.1
         with:
           name: terraform_plan_out
           path: terraform_plan.out
@@ -146,7 +146,7 @@ jobs:
         run: terraform validate
 
       - name: Download plan out file
-        uses: actions/download-artifact@v3.1.0
+        uses: actions/download-artifact@v7.0.1
         with:
           name: terraform_plan_out
           path: terraform_plan.out
