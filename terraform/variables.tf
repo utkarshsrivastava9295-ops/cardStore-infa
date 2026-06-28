@@ -26,7 +26,7 @@ variable "container_sku" {
 
 variable "node_vm_size" {
   type    = string
-  default = "Standard_DS2_v2"
+  default = "standard_b2pls_v2"
 }
 
 variable "node_count" {
