@@ -67,7 +67,7 @@ jobs:
           fi
             
       - name: Upload plan out file on artifact
-        uses: actions/upload-artifact@v7.0.1
+        uses: actions/upload-artifact@v3.1.0
         with:
           name: terraform_plan_out
           path: terraform_plan.out
