@@ -9,5 +9,6 @@ module "cardstoreInfra" {
   cluster_name      = local.cluster_name
   container_sku     = var.container_sku
   acr               = local.acr 
+  node_vm_size      = var.node_vm_size
 
 }
