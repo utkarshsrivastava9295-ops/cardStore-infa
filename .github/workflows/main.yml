@@ -24,7 +24,8 @@ permissions:
   id-token: write
 
 env:
-  TF_ENVIRONMENT: ${{ inputs.environment || 'dev' }}          
+  TF_ENVIRONMENT: ${{ inputs.environment || 'dev' }}
+  OPERATIONS: ${{ inputs.operations || 'apply'}}
 
 jobs:
   terraform_plan:
@@ -59,10 +60,11 @@ jobs:
 
       - name: Terraform Plan
         run: |
-          if "${{ inputs.operations }}" == "apply":
+          if [ "${{ env.OPERATIONS }}" = "apply" ]; then
             terraform plan -var-file="environment/${{ env.TF_ENVIRONMENT }}/terraform.tfvars" -out="terraform_plan.out"
-          else:
+          else
             terraform plan -destroy -var-file="environment/${{ env.TF_ENVIRONMENT }}/terraform.tfvars" -out="terraform_plan.out"
+          fi
             
       - name: Upload plan out file on artifact
         uses: actions/upload-artifact@v7.0.1
@@ -70,10 +72,8 @@ jobs:
           name: terraform_plan_out
           path: terraform_plan.out
           
-        
-
   terraform_apply:
-    if: ${{ github.event_name == 'workflow_dispatch' && inputs.operations == 'apply' }}
+    if: github.event_name == 'workflow_dispatch' && inputs.operations == 'apply'
     name: Terraform Apply
     runs-on: ubuntu-latest
     environment: terraform_approval
@@ -115,7 +115,7 @@ jobs:
 
   terraform_destroy:
     name: Terraform Destroy
-    if: ${{ github.event_name == 'workflow_dispatch' && inputs.operations == 'destroy' }}
+    if: github.event_name == 'workflow_dispatch' && inputs.operations == 'destroy'
     runs-on: ubuntu-latest
     environment: terraform_approval
     needs: terraform_plan
