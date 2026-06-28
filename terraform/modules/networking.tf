@@ -11,7 +11,7 @@ resource "azurerm_subnet" "mysubnet" {
   name = each.key
   virtual_network_name = azurerm_virtual_network.myvnet.name
   resource_group_name = azurerm_resource_group.myrg.name
-  address_prefixes = each.value.address_prefix
+  address_prefixes = [each.value.address_prefix]
 }
 
 # resource "azurerm_nat_gateway" "mynatgateway" {
