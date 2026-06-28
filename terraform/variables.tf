@@ -36,7 +36,7 @@ variable "node_count" {
 
 variable "enable_auto_scaling" {
   type    = bool
-  default = false
+  default = true
 }
 
 variable "min_count" {
