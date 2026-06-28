@@ -2,7 +2,6 @@ resource "azurerm_kubernetes_cluster" "mycluster" {
   name                = var.cluster_name
   location            = var.location
   resource_group_name = azurerm_resource_group.myrg.name
-  dns_prefix          = regexreplace(lower(var.cluster_name), "[^a-z0-9-]", "-")
   kubernetes_version  = var.kubernetes_version
 
   default_node_pool {
